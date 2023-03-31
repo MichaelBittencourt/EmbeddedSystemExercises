@@ -4,18 +4,6 @@ from gpiozero import PWMLED
 class _Getch:
     """Gets a single character from standard input.  Does not echo to the
 screen."""
-    def __init__(self):
-        try:
-            self.impl = _GetchWindows()
-        except ImportError:
-            self.impl = _GetchUnix()
-
-    def __call__(self): return self.impl()
-
-
-class _GetchUnix:
-    def __init__(self):
-        import tty, sys
 
     def __call__(self):
         import sys, tty, termios
@@ -29,31 +17,22 @@ class _GetchUnix:
         return ch
 
 
-class _GetchWindows:
-    def __init__(self):
-        import msvcrt
-
-    def __call__(self):
-        import msvcrt
-        return msvcrt.getch()
-
-
 getch = _Getch()
-
 
 pwmOutput = PWMLED(17)
 
 intensity = 0
 limitUp = 1.0
 limitDown = 0
+step = 0.05
 
 while True:
     character = getch()
     value = 0
     if character == 'h':
-        value = 0.1
+        value = step
     elif character == 'l':
-        value = -0.1
+        value = -step
     elif character == 'q':
         exit(0)
     
