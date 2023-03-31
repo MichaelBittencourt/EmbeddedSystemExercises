@@ -1,9 +1,9 @@
 import time
 from gpiozero import PWMLED
 
+# To get a single character from standard input.
+# Does not show anything to the screen.
 class _Getch:
-    """Gets a single character from standard input.  Does not echo to the
-screen."""
 
     def __call__(self):
         import sys, tty, termios
